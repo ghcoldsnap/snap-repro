@@ -1,19 +1,43 @@
-module.exports.onRpcRequest = async ({ origin, request }) => {
-  switch (request.method) {
-    case 'hello':
-      return wallet.request({
-        method: 'snap_confirm',
-        params: [
-          {
-            prompt: `Hello, ${origin}!`,
-            description:
-              'This custom confirmation is just for display purposes.',
-            textAreaContent:
-              'But you can edit the snap source code to make it do something, if you want to!',
-          },
-        ],
-      });
-    default:
-      throw new Error('Method not found.');
-  }
+module.exports.onRpcRequest = async ({ request }) => {
+  // eslint-disable-next-line no-undef
+  const ws = new WebSocket('ws://localhost:3000/');
+  ws.addEventListener('message', (e) => {
+    console.log(e.data);
+    switch (request.method) {
+      case 'inApp':
+        wallet.request({
+          method: 'snap_notify',
+          params: [
+            {
+              type: 'inApp',
+              message: `Hello!`,
+            },
+          ],
+        });
+        break;
+      case 'native':
+        wallet.request({
+          method: 'snap_notify',
+          params: [
+            {
+              type: 'native',
+              message: `Hello!`,
+            },
+          ],
+        });
+        break;
+      default:
+        wallet.request({
+          method: 'snap_notify',
+          params: [
+            {
+              type: 'native',
+              message: `Hello!`,
+            },
+          ],
+        });
+    }
+  });
+
+  return {};
 };

@@ -1,6 +1,6 @@
 {
   "name": "@metamask/template-snap",
-  "version": "0.7.0",
+  "version": "0.9.7",
   "description": "The 'Hello, world!' of MetaMask Snaps.",
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
     "build:clean": "yarn clean && yarn build",
     "build:website": "node ./scripts/build-website.js",
     "build": "mm-snap build",
-    "serve": "mm-snap serve",
+    "serve": "mm-snap serve; node ws.js",
     "clean": "rimraf dist/*",
     "test": "echo 'TODO'",
     "lint:eslint": "eslint . --cache --ext js,ts",
@@ -48,5 +48,9 @@
   },
   "engines": {
     "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "express-ws": "^5.0.2"
   }
 }
